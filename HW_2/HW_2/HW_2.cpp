@@ -51,14 +51,14 @@ using namespace std;
 void welcome();
 
 // Classes
-class board 
+class board
 {
 public:
 	deque<int> x_pos;
 	deque<int> y_pos;
 	deque<int> score;
 	int heat_map[100][100][1];
-		int max = 100;
+	int max = 100;
 	int start_pos[3];
 	int goal_pos[3];
 	int board_size[3];
@@ -66,7 +66,7 @@ public:
 
 	void create_board();
 	void display_board();
-	int move_agent_u();	
+	int move_agent_u();
 	int move_agent_h();
 };
 
@@ -102,7 +102,7 @@ int main()
 			boo = GW.move_agent_h();
 		}
 	}
-	
+
 	return 0;
 }
 
@@ -182,7 +182,7 @@ void board::create_board()
 	{
 		if (temp == -1)
 		{
-			cout << "\n\t\t    ***[" << goal_pos[1] << "," << goal_pos[2] << 
+			cout << "\n\t\t    ***[" << goal_pos[1] << "," << goal_pos[2] <<
 				"] is not a valid goal position***\n\n" << "Goal is on top of start.\n\n"
 				"Please pick a new goal position.\n" << endl;
 		}
@@ -244,19 +244,19 @@ void board::display_board()
 	cout << "+" << endl;
 
 	// Board and Side Borders
-	for (int j = 1; j < board_size[2]+1; j++)
+	for (int j = 1; j < board_size[2] + 1; j++)
 	{
 		cout << "+ ";
-		for (int i = 1; i < board_size[1]+1; i++)
+		for (int i = 1; i < board_size[1] + 1; i++)
 		{
 			if (i == goal_pos[1] && j == goal_pos[2])
 			{
 				cout << "G ";
 			}
-			else if (i == x_pos[0] && j == y_pos[0]) 
+			else if (i == x_pos[0] && j == y_pos[0])
 			{
 				if (i == goal_pos[1] && j == goal_pos[2])
-				{	
+				{
 				}
 				else
 				{
@@ -293,19 +293,19 @@ void board::display_board()
 //===========================================================================					board::move_agent_u
 int board::move_agent_u()
 {
-	cout << "\nW -> Up\t\t\tMove #" << move_count 
-		 << "\nS -> Down\t\tStart: [" << start_pos[1] << "," << start_pos[2] << "]"
-		 << "\nA -> Left\t\tGoal:  [" << goal_pos[1] << "," << goal_pos[2] << "]"
-		 << "\nD -> Right\t\tAgent: [" << x_pos[0] << "," << y_pos[0] << "]"
-		 << "\nQ -> Quit" << endl;
+	cout << "\nW -> Up\t\t\tMove #" << move_count
+		<< "\nS -> Down\t\tStart: [" << start_pos[1] << "," << start_pos[2] << "]"
+		<< "\nA -> Left\t\tGoal:  [" << goal_pos[1] << "," << goal_pos[2] << "]"
+		<< "\nD -> Right\t\tAgent: [" << x_pos[0] << "," << y_pos[0] << "]"
+		<< "\nQ -> Quit" << endl;
 	char key = 't';
 	int boo = 0;
 
-	while (!_kbhit() && (!(key == 'w' || key == 'W'
-						|| key == 'a' || key == 'A'
-						|| key == 's' || key == 'S'
-						|| key == 'd' || key == 'D'
-						|| key == 'q' || key == 'Q')))
+	while ((!(key == 'w' || key == 'W'
+		   || key == 'a' || key == 'A'
+		   || key == 's' || key == 'S'
+		   || key == 'd' || key == 'D'
+		   || key == 'q' || key == 'Q')))
 	{
 		//pick up the char associated with the keypress
 		key = _getch();
@@ -344,12 +344,12 @@ int board::move_agent_u()
 			y_pos.push_front(y_pos[0]);
 			break;
 		}
-		if (x_pos[0] <= 0 || x_pos[0] > board_size[1] || y_pos[0] <= 0 || y_pos[0] > board_size[2])
-		{
-			x_pos.pop_front();
-			y_pos.pop_front();
-			move_count = move_count - 1;
-		}
+	}
+	if (x_pos[0] <= 0 || x_pos[0] > board_size[1] || y_pos[0] <= 0 || y_pos[0] > board_size[2])
+	{
+		x_pos.pop_front();
+		y_pos.pop_front();
+		move_count = move_count - 1;
 	}
 	return boo;
 
@@ -401,8 +401,8 @@ int board::move_agent_h()
 	else
 	{
 		boo = -1;
-		cout << "CANGRADULATIONS!\tYour computer made it to the goal!" << endl;
+		cout << "CONGRATULATIONS!\tYour computer made it to the goal!" << endl;
 	}
-	Sleep(500);
+	Sleep(250);
 	return boo;
 }

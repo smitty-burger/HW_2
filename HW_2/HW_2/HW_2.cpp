@@ -465,7 +465,7 @@ void board::set_board()
 	system("CLS");
 	cout << "Q-Learner Grid Properties\n\nLoop Number:\t" << loop_num << endl;
 	// Variable Definition
-	epsilon = .05;
+	epsilon = .50;
 	alpha = .95;
 	gamma = .95;
 
@@ -530,7 +530,7 @@ void board::set_board()
 		{
 			for (int k = 0; k < 4; k++)
 			{
-				qtab[i][j][k] = 0 + 0.001*cl4ptp - 0.001*cl4ptp;
+				qtab[i][j][k] = 0 + 0.0001*cl4ptp - 0.0001*cl4ptp;
 			}
 		}
 	};
@@ -570,7 +570,9 @@ int board::Q_L()
 	int choice;
 	int best = 0;
 	double dbest = 0;
+	deque<double> Best_Q;
 
+	/*
 	//Pick best direction
 	for (int i = 1; i < 4; i++)
 	{
@@ -579,6 +581,67 @@ int board::Q_L()
 			best = i;
 		}
 	}
+	*/
+
+	// For the Changed State Space Representation
+		// For the best direction of travel consider the next square as well, the agent
+		// can now see further.
+	for (int i = 1; i < 4; i++)
+	{
+		if (qtab[x_pos[0]][y_pos[0] - 1][i] > qtab[x_pos[0]][y_pos[0] - 1][best])
+		{
+			best = i;
+		}
+	}
+	Best_Q.push_back(qtab[x_pos[0]][y_pos[0]][0] + qtab[x_pos[0]][y_pos[0] - 1][best]);
+	best = 0;
+	for (int i = 1; i < 4; i++)
+	{
+		if (qtab[x_pos[0] - 1][y_pos[0]][i] > qtab[x_pos[0] - 1][y_pos[0]][best])
+		{
+			best = i;
+		}
+	}
+	Best_Q.push_back(qtab[x_pos[0]][y_pos[0]][1] + qtab[x_pos[0] - 1][y_pos[0]][best]);
+	best = 0;
+	for (int i = 1; i < 4; i++)
+	{
+		if (qtab[x_pos[0]][y_pos[0] + 1][i] > qtab[x_pos[0]][y_pos[0] + 1][best])
+		{
+			best = i;
+		}
+	}
+	Best_Q.push_back(qtab[x_pos[0]][y_pos[0]][2] + qtab[x_pos[0]][y_pos[0] + 1][best]);
+	best = 0;
+	for (int i = 1; i < 4; i++)
+	{
+		if (qtab[x_pos[0] + 1][y_pos[0]][i] > qtab[x_pos[0] + 1][y_pos[0]][best])
+		{
+			best = i;
+		}
+	}
+	Best_Q.push_back(qtab[x_pos[0]][y_pos[0]][3] + qtab[x_pos[0] + 1][y_pos[0]][best]);
+	best = 0;
+	auto biggest = max_element(begin(Best_Q), end(Best_Q));
+	best = distance(begin(Best_Q), biggest);
+	Best_Q.clear();
+		// Explore Epsilon Change As the Q table starts to fill out rely less and less on exploration
+		// This does not ever get rid of exploration, just reduces the chance of it.
+	///*
+	if ((double)loop_cd / (double)loop_num <= 0.66)
+	{
+			epsilon = .8;
+	}
+	if ((double)loop_cd / (double)loop_num <= 0.33)
+	{
+			epsilon = .5;
+	}
+	if ((double)loop_cd / (double)loop_num <= 0.1)
+	{
+		// epsilon = 0.01;
+	}
+	
+	//*/
 
 	//Pick random direction 
 	random_dir = rand() % 4;

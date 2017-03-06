@@ -465,7 +465,7 @@ void board::set_board()
 	system("CLS");
 	cout << "Q-Learner Grid Properties\n\nLoop Number:\t" << loop_num << endl;
 	// Variable Definition
-	epsilon = .50;
+	epsilon = .01;
 	alpha = .95;
 	gamma = .95;
 
@@ -572,7 +572,7 @@ int board::Q_L()
 	double dbest = 0;
 	deque<double> Best_Q;
 
-	/*
+	///*
 	//Pick best direction
 	for (int i = 1; i < 4; i++)
 	{
@@ -581,8 +581,8 @@ int board::Q_L()
 			best = i;
 		}
 	}
-	*/
-
+	//*/
+	/*
 	// For the Changed State Space Representation
 		// For the best direction of travel consider the next square as well, the agent
 		// can now see further.
@@ -625,22 +625,94 @@ int board::Q_L()
 	auto biggest = max_element(begin(Best_Q), end(Best_Q));
 	best = distance(begin(Best_Q), biggest);
 	Best_Q.clear();
+	*/
 		// Explore Epsilon Change As the Q table starts to fill out rely less and less on exploration
 		// This does not ever get rid of exploration, just reduces the chance of it.
-	///*
-	if ((double)loop_cd / (double)loop_num <= 0.66)
+	/*
+	// For Larger smaller step
+	if ((double)loop_cd / (double)loop_num <= 0.82)
+	{
+			epsilon = .9;
+	}
+	if ((double)loop_cd / (double)loop_num <= 0.73)
 	{
 			epsilon = .8;
 	}
-	if ((double)loop_cd / (double)loop_num <= 0.33)
+	if ((double)loop_cd / (double)loop_num <= 0.64)
 	{
-			epsilon = .5;
+		epsilon = 0.7;
 	}
-	if ((double)loop_cd / (double)loop_num <= 0.1)
+	if ((double)loop_cd / (double)loop_num <= 0.55)
 	{
-		// epsilon = 0.01;
+		epsilon = .6;
 	}
-	
+	if ((double)loop_cd / (double)loop_num <= 0.46)
+	{
+		epsilon = .5;
+	}
+	if ((double)loop_cd / (double)loop_num <= 0.39)
+	{
+		epsilon = 0.4;
+	}
+	if ((double)loop_cd / (double)loop_num <= 0.3)
+	{
+		epsilon = .3;
+	}
+	if ((double)loop_cd / (double)loop_num <= 0.21)
+	{
+		epsilon = .2;
+	}
+	if ((double)loop_cd / (double)loop_num <= 0.12)
+	{
+		epsilon = 0.1;
+	}
+	if ((double)loop_cd / (double)loop_num <= 0.06)
+	{
+		epsilon = 0.05;
+	}
+	//*/
+	/*
+	// For Smaller final epsilon
+	if ((double)loop_cd / (double)loop_num <= 0.82)
+	{
+		epsilon = .9;
+	}
+	if ((double)loop_cd / (double)loop_num <= 0.73)
+	{
+		epsilon = .7;
+	}
+	if ((double)loop_cd / (double)loop_num <= 0.64)
+	{
+		epsilon = 0.5;
+	}
+	if ((double)loop_cd / (double)loop_num <= 0.55)
+	{
+		epsilon = .3;
+	}
+	if ((double)loop_cd / (double)loop_num <= 0.46)
+	{
+		epsilon = .1;
+	}
+	if ((double)loop_cd / (double)loop_num <= 0.39)
+	{
+		epsilon = 0.05;
+	}
+	if ((double)loop_cd / (double)loop_num <= 0.3)
+	{
+		epsilon = .025;
+	}
+	if ((double)loop_cd / (double)loop_num <= 0.21)
+	{
+		epsilon = .01;
+	}
+	if ((double)loop_cd / (double)loop_num <= 0.12)
+	{
+		epsilon = 0.005;
+	}
+	if ((double)loop_cd / (double)loop_num <= 0.06)
+	{
+		epsilon = 0.005;
+	}
 	//*/
 
 	//Pick random direction 
